@@ -3,6 +3,7 @@
 # File name          : Argon2Cracker.py
 # Author             : Podalirius (@podalirius_)
 # Date created       : 25 Feb 2022
+# Fix encoding error with some wordlist - Fixed by: Scarar
 
 import argon2
 import argparse
@@ -73,7 +74,7 @@ if __name__ == '__main__':
     if options.verbose:
         print("[>] Loading wordlist ... ", end="")
         sys.stdout.flush()
-    f = open(options.wordlist, 'r', encoding='ISO-8859-1')  # Changed to handle different encoding
+    f = open(options.wordlist, 'r', encoding='ISO-8859-1')  # Changed to handle different encoding - Old version would cause an encoding error
     wordlist = sorted([l.strip() for l in f.readlines()])
     f.close()
     if options.verbose:
