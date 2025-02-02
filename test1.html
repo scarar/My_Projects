@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Truck</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .truck {
+            position: relative;
+            width: 300px;
+            height: 150px;
+            background-color: #333;
+            border-radius: 10px;
+        }
+        .truck::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            background-color: #333;
+            border-radius: 10px;
+        }
+        .truck::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 220px;
+            width: 60px;
+            height: 60px;
+            background-color: #333;
+            border-radius: 10px;
+        }
+        .wheel {
+            position: absolute;
+            bottom: -25px;
+            width: 50px;
+            height: 50px;
+            background-color: #555;
+            border-radius: 50%;
+        }
+        .wheel.left {
+            left: 30px;
+        }
+        .wheel.right {
+            right: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="truck">
+        <div class="wheel left"></div>
+        <div class="wheel right"></div>
+    </div>
+</body>
+</html>

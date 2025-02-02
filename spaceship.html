@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futuristic Spaceship</title>
+  <style>
+    body {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      background-color: black;
+      background-image: radial-gradient(circle at center, #1d232a, black);
+    }
+
+    #spaceship {
+      width: 200px;
+      height: 300px;
+      position: absolute;
+      left: 50%;
+      top: 30%;
+      transform: translateX(-50%);
+      background-image:
+              linear-gradient(to bottom, silver 30%, #555 70%),
+              linear-gradient(45deg, transparent 48%, #888 50%, transparent 52%),
+              radial-gradient(circle at 50% 0%, #444 40%, transparent 45%),
+              linear-gradient(to bottom, transparent 90%, silver 100%),
+              linear-gradient(to right, #888 30%, transparent 31%);
+      background-repeat: no-repeat;
+      background-size:
+              200px 200px,
+              40px 200px,
+              100px 50px,
+              40px 100px,
+              20px 80px;
+      background-position:
+              center bottom,
+              center top,
+              center top,
+              left bottom,
+              right 50px center;
+      border-radius: 50% 50% 20% 20%;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+
+    #spaceship::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 80px;
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%);
+      background-color: yellow;
+      background-image: radial-gradient(circle at center, rgba(255,255,0,0.5), transparent);
+      box-shadow: 0 0 30px rgba(255, 255, 0, 0.7), 0 0 60px rgba(255, 255, 0, 0.5);
+      border-radius: 50% 50% 0 0;
+    }
+
+    #spaceship::after {
+      content: '';
+      display: block;
+      width: 200px;
+      height: 20px;
+      position: absolute;
+      left: 50%;
+      top: 70%;
+      transform: translateX(-50%);
+      background-color: #222;
+      border-radius: 50%;
+      box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+<div id="spaceship"></div>
+</body>
+</html>
