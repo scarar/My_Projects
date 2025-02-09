@@ -1,0 +1,19 @@
+Import-Module Polaris
+
+# Define a GET route at the root URL
+New-PolarisRoute -Method GET -Path "/" -ScriptBlock {
+    param($Context)
+    $Context.Response.Send("<html><body><h1>Hello from Polaris!</h1><p>This is your PowerShell HTTP server.</p></body></html>")
+}
+
+# Optionally, define more routes as needed:
+New-PolarisRoute -Method GET -Path "/hello" -ScriptBlock {
+    param($Context)
+    $Context.Response.Send("Hello, World!")
+}
+
+# Start the server on port 8080
+Start-Polaris -Port 8080
+
+Write-Host "Polaris HTTP server is running on http://localhost:8080/"
+Write-Host "Press Ctrl+C to stop the server."
