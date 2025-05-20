@@ -1,9 +1,9 @@
 # Decode IP address from Base64
-$ipBytes = [System.Convert]::FromBase64String("MTcyLjIyLjIzOC4xNjg=")
+$ipBytes = [System.Convert]::FromBase64String("Encoded Base64 IP Address")
 $ip = [System.Text.Encoding]::ASCII.GetString($ipBytes)
 
 # Decode port from Base64
-$portBytes = [System.Convert]::FromBase64String("NDQ0NQ==")
+$portBytes = [System.Convert]::FromBase64String("Encoded Base64 Port")
 $portStr = [System.Text.Encoding]::ASCII.GetString($portBytes)
 $port = [int]$portStr
 
